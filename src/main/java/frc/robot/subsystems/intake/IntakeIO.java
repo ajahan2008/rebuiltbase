@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.intake;
 
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -15,10 +16,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class IntakeIO extends SubsystemBase {
 
   private SparkMax motor = new SparkMax(IntakeConstants.motorID, MotorType.kBrushless);
+  private SparkClosedLoopController motorController = motor.getClosedLoopController();
   private SparkMaxConfig motorConfig = new SparkMaxConfig();
 
   /** Creates a new Intake. */
-  public IntakeIO() {}
+  public IntakeIO() {
+    
+  }
 
   /**
    * Runs the intake at specified speed.
@@ -30,11 +34,18 @@ public class IntakeIO extends SubsystemBase {
   }
 
   /**
+   * Stops the intake.
+   */
+  public void stopIntake() {
+    motor.stopMotor();
+  }
+
+  /**
    * Actual intake command for the intake.
    * @return command
    */
   public Command runIntakeCommand() {
-    return this.run(() -> runIntake(.5));
+    return this.run(() -> runIntake(.75));
   }
 
   /**
@@ -42,7 +53,11 @@ public class IntakeIO extends SubsystemBase {
    * @return reverse command
    */
   public Command reverseIntakeCommand() {
-    return this.run(() -> runIntake(-.5));
+    return this.run(() -> runIntake(-.75));
+  }
+
+  public Command stopIntakeCommand() {
+    return this.runOnce(() -> stopIntake());
   }
 
   @Override
