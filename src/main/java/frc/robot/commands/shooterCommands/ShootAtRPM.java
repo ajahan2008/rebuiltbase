@@ -5,19 +5,18 @@
 package frc.robot.commands.shooterCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.shooter.ShooterInputs;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ThroughputAndShootCommand extends Command {
+public class ShootAtRPM extends Command {
 
-  private ShooterSubsystem shooterIO;
+  private ShooterSubsystem shooterIO = new ShooterSubsystem();
 
-  /** Creates a new ThroughputAndShootCommand. */
-  public ThroughputAndShootCommand(ShooterSubsystem shooterIO) {
+  /** Creates a new ShootAtRPM. */
+  public ShootAtRPM(ShooterSubsystem shooterIO) {
     this.shooterIO = shooterIO;
 
-    addRequirements(shooterIO); 
+    addRequirements(shooterIO);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -28,8 +27,7 @@ public class ThroughputAndShootCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterIO.index(ShooterInputs.kIndexerSpeed);
-    shooterIO.shoot(ShooterInputs.kShooterSpeed);
+    shooterIO.setRPM();
   }
 
   // Called once the command ends or is interrupted.
